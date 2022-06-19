@@ -1,5 +1,5 @@
 const canvas = document.getElementById("canvas")
-const context = canvas.getContext('2d')
+const ctx = canvas.getContext('2d')
 
 canvas.height = 500
 canvas.width = 500
@@ -10,12 +10,14 @@ const animate = () => {
     requestAnimationFrame(animate)
     
     //clear canvas
-    context.fillStyle = 'rgba(255, 255, 255)'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-
+    ctx.fillStyle = 'rgba(255, 255, 255)'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    
     //draw
-    map.drawMap()
-
+    //map.drawMap()
+    
+    tile.draw()
+    
   }, 1000/60);
   
  

@@ -16,14 +16,14 @@ class Player{
   }
   #drawPlayer(){
       //Draw Blue Sphere Player Object
-      context.beginPath()
-      context.rect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)    
-      context.fillStyle = this.color
-      context.fill()
+      ctx.beginPath()
+      ctx.rect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)    
+      ctx.fillStyle = this.color
+      ctx.fill()
       //Draw Player Name
-      context.font = 'bold 12px verdana';
-      context.fillStyle = "white"
-      context.fillText(this.playerName, this.x - this.width / 2, this.y + 3)
+      ctx.font = 'bold 12px verdana';
+      ctx.fillStyle = "white"
+      ctx.fillText(this.playerName, this.x - this.width / 2, this.y + 3)
   }
   #movePlayer(){
     // Move up
