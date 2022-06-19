@@ -13,10 +13,11 @@ const animate = () => {
     ctx.fillStyle = 'rgba(255, 255, 255)'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     
+    //scale the image by 2x
+    //ctx.setTransform(2, 0, 0, 2, -canvas.width / 2, -canvas.height / 4) // hoz scale, vert skew, hoz skew, vert scale, hoz trans, vert trans
+
     //draw
-    //map.drawMap()
-    
-    tile.draw()
+    map.update()
     
   }, 1000/60);
   

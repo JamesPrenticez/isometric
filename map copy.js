@@ -16,28 +16,26 @@ class Map{
     this.tileWidth = 34 //canvas.width / 6 / 1.1
     this.tileHeight = 37 //canvas.height / 6 / 1.1
   }
-  update(){
+  drawMap(){
     //loop through rows
     for(let i=0; i < this.matrix.length; i++){
+
       //loop through columns
       for(let j=0; j < this.matrix[i].length; j++){
-
         let cartX = j * this.tileWidth * .5 + canvas.width / 2
         let cartY = i * this.tileHeight * .5 + this.tileHeight / 2
-        //console.log('i + cartX', i + " " + cartX)
-    
+        let tileType = this.matrix[i][j]
+        
         //Cartesian to isometric:
         let isoX = cartX - cartY;
         let isoY = (cartX + cartY) / 2;
 
-        //Get type
-        let tileType = this.matrix[i][j]
+        // Place Tile
 
         //Generate new tile and push to the tileList array
         let tile = new Tile(isoX, isoY, this.tileWidth, this.tileHeight, tileType)
-
         //console.log(tile)
-        tile.update(isoX, isoY, cartX, cartY, i, j)
+        tile.drawTile()
       }
     }
   }
