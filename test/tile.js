@@ -99,7 +99,7 @@ class Tile{
   update(isoX, isoY, cartX, cartY, i, j){
       //this.#drawMouse(isoX, isoY, i, j)
       //this.#drawOrigin(isoX, isoY, i, j)
-      this.#drawSprite(isoX, isoY)
+      //this.#drawSprite(isoX, isoY)
       this.#drawHitBox(isoX, isoY, cartX, cartY, i, j)        
       //this.#drawCords(isoX, isoY, i, j)        
   }

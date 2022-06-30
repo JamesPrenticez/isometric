@@ -1,31 +1,54 @@
-const canvas = document.getElementById("canvas")
+const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
-canvas.height = 500
-canvas.width = 500
+canvas.width = document.body.clientWidth
+canvas.height = document.body.clientHeight
 
+let logoImg = new Image()
+logoImg.src = './img/logo.png'
 
-const animate = () => {
-  setTimeout(() => {
-    requestAnimationFrame(animate)
-    
-    //clear canvas
-    ctx.fillStyle = 'rgba(255, 255, 255)'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    
-    //scale the image by 2x
-    //ctx.setTransform(2, 0, 0, 2, -canvas.width / 2, -canvas.height / 4) // hoz scale, vert skew, hoz skew, vert scale, hoz trans, vert trans
+const showIntro = () => {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
 
-    //draw
-    map.update()
-    
-  }, 1000/60);
+  // Background
+  let gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
+  gradient.addColorStop(0, '#ceefff')
+  gradient.addColorStop(1, '#52bcff')
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.lineWidth  = 3
+  ctx.strokeStyle = '#00008B'
+  ctx.strokeRect(0, 0, canvas.width, canvas.height);
   
- 
+  // Logo
+  // declared globally becasue this shit is retarded as fuck
+  let originalWidth = logoImg.width
+
+  // Compute new width to 50% and maintain aspect ratio
+  logoImg.width = Math.round((50 * document.body.clientWidth) / 100)
+  logoImg.height = Math.round((logoImg.width * logoImg.height) / originalWidth)
+  
+  // Create utility object for logo
+  let logo = {
+    img: logoImg,
+    x: (canvas.width/2) - (logoImg.width/2),
+    y: (canvas.height/2) - (logoImg.height/2)
+  }
+
+  // Preset the logo image
+  ctx.drawImage(logo.img, logo.x, logo.y, logo.img.width, logo.img.height)
+
+  // Welcome message
+  let phrase = "Click or tap on screen to start the game"
+  ctx.font = 'bold 16px Verdana, sans-serif'
+  ctx.fillStyle = '#000000'
+  let measureText = ctx.measureText(phrase)
+  let xCoord = (canvas.width/2) - (measureText.width/2)
+  let yCoord = (logo.y + logo.img.height) + 50
+  ctx.fillText (phrase, xCoord, yCoord)
 }
 
-animate()
-
-//https://cantwell-tom.medium.com/isometric-maze-on-html-canvas-c560afb8430a
-//https://gist.github.com/jordwest/8a12196436ebcf8df98a2745251915b5
-//http://www.gotoandplay.it/_articles/2004/02/tonypa_p03.php?PHPSESSID=39d874fcb57ee160497d76a1f0d15874
+window.onload = () => {
+  showIntro()
+}
