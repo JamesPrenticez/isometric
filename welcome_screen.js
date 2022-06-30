@@ -2,8 +2,7 @@ let logoImg = new Image()
 logoImg.src = './img/logo.png'
 
 const showIntro = () => {
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+  if(state._current == 2) return
 
   // Background
   let gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
@@ -40,7 +39,7 @@ const showIntro = () => {
   let measureText = ctx.measureText(phrase)
   let xCoord = (canvas.width/2) - (measureText.width/2)
   let yCoord = (logo.y + logo.img.height) + 50
-  ctx.fillText (phrase, xCoord, yCoord)
+  ctx.fillText(phrase, xCoord, yCoord)
 }
 
 const fadeOut = (alphaValue) => {
@@ -62,12 +61,7 @@ const fadeOut = (alphaValue) => {
 const handleClick = () => {
   state._current = state.loading
   fadeOut()
-}
-
-const handleResize = () => {
-  canvas.width = document.body.clientWidth
-  canvas.height = document.body.clientHeight
-
+  console.log(state._current)
   switch(state._current){
     case state.intro:
       showIntro()
@@ -76,4 +70,3 @@ const handleResize = () => {
 }
 
 window.addEventListener('click', handleClick, false)
-window.addEventListener('resize', handleResize, false)
