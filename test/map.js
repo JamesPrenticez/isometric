@@ -13,14 +13,19 @@ const inputMatrix = [
 class Map{
   constructor(matrix){
     this.matrix = matrix
+
+    this.startRow 
+    this.startCol
+    
+
     this.tileWidth = 34 //canvas.width / 6 / 1.1
     this.tileHeight = 37 //canvas.height / 6 / 1.1
   }
   update(){
     //loop through rows
-    for(let i=0; i < 100; i++){
+    for(let i=0; i < 10; i++){
       //loop through columns
-      for(let j=0; j <  100; j++){
+      for(let j=0; j <  10; j++){
 
         let cartX = j * this.tileWidth * .5 + canvas.width / 2
         let cartY = i * this.tileHeight * .5 + this.tileHeight / 2

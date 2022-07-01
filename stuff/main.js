@@ -4,18 +4,31 @@ const ctx = canvas.getContext('2d')
 canvas.width = document.body.clientWidth
 canvas.height = document.body.clientHeight
 
-const animate = () => {
-  handleResize()
+let state = {
+  _current: 0,
+  intro: 0,
+  loading: 1,
+  loading: 2
+}
 
+let fps = 0 
+let timestamp = Math.round(performance.now() / 1000)
+
+const animate = () => {
   //Clear canvas
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
-  ctx.lineWidth  = 3
-  ctx.strokeStyle = '#00FF00'
-  ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
   
-  //Draw
-  map.draw()
+  if(timeStamp != ts){
+    fps = fpsCount
+    fpsCount = 0
+    fpsArray.push(fps)
+  } else{
+    fpsCount++
+  }
+
+
   
   requestAnimationFrame(animate)
 }

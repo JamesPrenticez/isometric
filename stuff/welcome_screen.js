@@ -45,12 +45,10 @@ const showIntro = () => {
 const fadeOut = (alphaValue) => {
   // Default value if undefined
   let alpha = (alphaValue == undefined) ? 0.02 : parseFloat(alphaValue) + 0.02
-
-  ctx.fillStyle = '#FFFFFF'
+  
+  ctx.fillStyle = '#000000'
   ctx.globalAlpha = alpha
-
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
-
+  
   if(alpha < 1.0){
     setTimeout(() => {
       fadeOut(alpha)
@@ -59,6 +57,7 @@ const fadeOut = (alphaValue) => {
 }
 
 const handleClick = () => {
+  if(state._current == 2) return
   state._current = state.loading
   fadeOut()
   console.log(state._current)
