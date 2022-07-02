@@ -5,7 +5,7 @@ class Map{
   constructor(){
     this.tileMap = []
     this.tile = { width: 32, height: 32 }
-    this.grid = { width: 100, height: 100 }
+    this.grid = { width: 250, height: 250 }
     this.scrollPosition = {x: 0, y: 0 }
     this.dragHelper = { active: false, x: 0, y: 0 }
     this.zoomHelper = { level: 1, normal: 1, far: 0.50, close: 2 }
@@ -18,19 +18,28 @@ class Map{
     this.tile.width *= this.zoomHelper.level
     this.tile.height *= this.zoomHelper.level
 
+    // pixel position of playfield
+    this.worldX = 512 * this.tile.width
+    this.worldY = 512 * this.tile.height
+
     // Center the map initially
-    this.scrollPosition.x -= (this.grid.width * this.zoomHelper.level) + this.scrollPosition.x
-    this.scrollPosition.y -= (this.grid.height * this.zoomHelper.level) + this.scrollPosition.y
+    //this.scrollPosition.x -= (this.grid.width * this.zoomHelper.level) + this.scrollPosition.x
+    //this.scrollPosition.y -= (this.grid.height * this.zoomHelper.level) + this.scrollPosition.y
+  }
+  
+  scrollDisplay(){
+    document.getElementById("scrollX").innerText = this.scrollPosition.x
+    document.getElementById("scrollY").innerText = this.scrollPosition.y
+
   }
 
   pan(){
     if(this.controls.up){
-      console.log("up")
       this.scrollPosition.y -= 20
       //this.scroll.y -= ((this.scroll.y - this.tile.height) >= 0) ? this.tile.height : 0
     }
     if(this.controls.left){
-      this.scrollPosition.x += 20
+      this.scrollPosition.x -= 20
       //this.scroll.x -= ((this.scroll.x - this.tile.width) >= 0) ? this.tile.width : 0;
     }
 
@@ -39,7 +48,7 @@ class Map{
     }
 
     if(this.controls.right){
-      this.scrollPosition.x -= 20
+      this.scrollPosition.x += 20
     }
 
     if(this.controls.plus){
@@ -140,17 +149,19 @@ class Map{
 
   }
 
-  #drawSquare(tilePosX, tilePosY, row, col){
+  #drawSquare(tilePosX, tilePosY, color){
     ctx.beginPath()
     ctx.rect(tilePosX, tilePosY, this.tile.width, this.tile.height )  // x cord, y cord, width, height    
     ctx.strokeStyle = "red"
-    ctx.fillStyle = ctx.isPointInPath(mouse.clientX, mouse.clientY) ? "yellow" : "transparent"
+    ctx.fillStyle = ctx.isPointInPath(mouse.clientX, mouse.clientY) ? "yellow" : color
     ctx.lineWidth = 1
     ctx.stroke()
     ctx.fill()
-    ctx.font = 'bold 12px mono';
-    ctx.fillStyle = "white"
-    ctx.fillText( row + ":" + col, tilePosX + 4, tilePosY + 16)
+    // ctx.font = 'bold 12px mono';
+    // ctx.fillStyle = "yellow"
+    // ctx.fillText( "r" + row, tilePosX + 4, tilePosY + 16)
+    // ctx.fillStyle = "pink"
+    // ctx.fillText( "c" + col, tilePosX + 4, tilePosY + 30)
   }
 
   // #drawRotatedSquare(tilePosX, tilePosY, row, col){
@@ -180,63 +191,82 @@ class Map{
     )
   }
 
-  draw(){
-    let pos_TL = this.#translatePixelsToMatix(1, 1)
-    let pos_BL = this.#translatePixelsToMatix(1, canvas.height)
-    let pos_TR = this.#translatePixelsToMatix(canvas.width, 1)
-    let pos_BR = this.#translatePixelsToMatix(canvas.width, canvas.height)
-
-    // let pos_TL = {row: 1, col: 1}
-    // let pos_TR = {row: canvas.width, col: 1}
-    // let pos_BR = {row: canvas.width, col: canvas.height} 
-    // let pos_BL = {row: 1, col: canvas.height}
-
-    let startRow = pos_TL.row
-    let startCol = pos_TR.col
-    let rowCount = pos_BR.row + 1
-    let colCount = pos_BL.col + 1
-
-    startRow = (startRow < 0) ? 0 : startRow
-    startCol = (startCol < 0) ? 0 : startCol
-
-    // Boundary
-    rowCount = (rowCount > this.grid.width) ? this.grid.width : rowCount
-    console.log(rowCount)
-    colCount = (colCount > this.grid.height) ? this.grid.height : colCount
-    console.log(colCount)
-
-    let tileWidth = this.tile.width * this.zoomHelper.level
-    let tileHeight = this.tile.height * this.zoomHelper.level
-
-  for(let row = startRow; row < rowCount; row++){
-    for(let col = startCol; col < colCount; col++){
-    // for(let col = 0; col < 100; col++){
-    //     for(let row = 0; row < 100; row++){
-        
-        // -------------- 1
-        let tilePosX = (row - col) * tileHeight + (this.grid.width * this.zoomHelper.level) 
-        tilePosX += (canvas.width / 2) - ((tileWidth / 2) * this.zoomHelper.level) + this.scrollPosition.x
-        let tilePosY = (row + col) * tileHeight / 2 + (this.grid.height * this.zoomHelper.level) + this.scrollPosition.x
-
-        // -------------- 2
-        // let tilePosX = (row - col) * tileHeight + (this.grid.width * this.zoomHelper.level) 
-        // tilePosX += (canvas.width / 2) - ((tileWidth / 2) * this.zoomHelper.level) + this.scrollPosition.x
-        // let tilePosY = (row + col) * tileHeight / 2 + (this.grid.height * this.zoomHelper.level) + this.scrollPosition.x
-
-        // -------------- 3
-        // let tilePosX = this.tile.width * row * 1.2//(row - col) * this.tile.height
-        // let tilePosY = this.tile.height * col * 1.2//(row + col) * (this.tile.height)
-
-        // tilePosX -= this.scrollPosition.x
-        // tilePosY -= this.scrollPosition.y
-        // --------------
-        this.#drawSquare(Math.round(tilePosX), Math.round(tilePosY), row, col)
+  initGrid(){
+    for(let i = 0; i < this.grid.width; i++) {
+      this.tileMap[i] = []
+        for (let j = 0; j < this.grid.height; j++) {
+            this.tileMap[i][j] = Math.random() * 1
       }
     }
+    console.log('this.tileMap', this.tileMap)
   }
+
+  draw(){
+    // get the top left tile
+    const TL = {
+      top: this.scrollPosition.y / this.tile.height,
+      left: this.scrollPosition.x / this.tile.width
+    }
+
+    const centreMap = {
+      x: this.grid.width * this.tile.width / 2,
+      y: this.grid.height * this.tile.height / 2
+    }
+  
+    // get the number of tiles that will fit the canvas 
+    const rowsThatFitOnScreen = this.grid.width < canvas.width / this.tile.width ? this.grid.width : canvas.width / this.tile.width
+    const colsThatFitOnScreen = this.grid.height < canvas.height / this.tile.height ? this.grid.height : canvas.height / this.tile.height
+
+    let a = Math.floor(this.scrollPosition.x / this.tile.height)
+    let b = Math.floor(this.scrollPosition.y / this.tile.width)
+    let startCol = a >= 0 ? a : 0
+    let startRow = b >= 0 ? b : 0
+
+
+    for(let row = startRow; row < startRow + rowsThatFitOnScreen; row++){
+      for(let col = startCol; col <  startCol + colsThatFitOnScreen; col++){
+
+        let tilePosX = this.tile.width * col //(row - col) * this.tile.height
+        let tilePosY = this.tile.height * row //(row + col) * (this.tile.height)
+
+        //Center the grid horizontally/vertically
+        //tilePosX += (canvas.width / 2) - (rowCount * this.tile.width - this.tile.width)
+        //tilePosY += (canvas.height / 2) - (colCount * this.tile.height - this.tile.height)
+
+        //Scroll
+        tilePosX -= this.scrollPosition.x;
+        tilePosY -= this.scrollPosition.y;
+
+        //console.log(rowCount)
+        document.getElementById("startRow").innerText = startRow
+        document.getElementById("startCol").innerText = startCol
+
+        //get index of tile in tileMap
+        let tileIndex = this.tileMap[row][col]
+        //console.log(tileIndex)
+        //console.log('row', row)
+        //console.log('col', col)
+
+        let color = "transparent"
+
+        if(tileIndex > 0.5){
+          this.#drawSquare(tilePosX, tilePosY, "red")
+        }
+        if(tileIndex < 0.5){
+          this.#drawSquare(tilePosX, tilePosY, "blue")
+        }
+        //color
+
+        //Draw each tile
+        //ctx.setTransform(1,0,0,1, 0, 0)  
+      }
+    }
+   }
 }
 
 let map = new Map()
+map.initGrid()
+
 
 
 
@@ -262,6 +292,61 @@ let map = new Map()
 // }
 
 
+// draw(){
+//   let pos_TL = this.#translatePixelsToMatix(1, 1)
+//   let pos_BL = this.#translatePixelsToMatix(1, canvas.height)
+//   let pos_TR = this.#translatePixelsToMatix(canvas.width, 1)
+//   let pos_BR = this.#translatePixelsToMatix(canvas.width, canvas.height)
+
+//   // let pos_TL = {row: 1, col: 1}
+//   // let pos_TR = {row: canvas.width, col: 1}
+//   // let pos_BR = {row: canvas.width, col: canvas.height} 
+//   // let pos_BL = {row: 1, col: canvas.height}
+
+//   let startRow = pos_TL.row
+//   let startCol = pos_TR.col
+//   let rowCount = pos_BR.row + 1
+//   let colCount = pos_BL.col + 1
+
+//   startRow = (startRow < 0) ? 0 : startRow
+//   startCol = (startCol < 0) ? 0 : startCol
+
+//   // Boundary
+//   rowCount = (rowCount > this.grid.width) ? this.grid.width : rowCount
+//   console.log(rowCount)
+//   colCount = (colCount > this.grid.height) ? this.grid.height : colCount
+//   console.log(colCount)
+
+//   let tileWidth = this.tile.width * this.zoomHelper.level
+//   let tileHeight = this.tile.height * this.zoomHelper.level
+
+// for(let row = startRow; row < rowCount; row++){
+//   for(let col = startCol; col < colCount; col++){
+//   // for(let col = 0; col < 100; col++){
+//   //     for(let row = 0; row < 100; row++){
+      
+//       // -------------- 1
+//       let tilePosX = (row - col) * tileHeight + (this.grid.width * this.zoomHelper.level) 
+//       tilePosX += (canvas.width / 2) - ((tileWidth / 2) * this.zoomHelper.level) + this.scrollPosition.x
+//       let tilePosY = (row + col) * tileHeight / 2 + (this.grid.height * this.zoomHelper.level) + this.scrollPosition.x
+
+//       // -------------- 2
+//       // let tilePosX = (row - col) * tileHeight + (this.grid.width * this.zoomHelper.level) 
+//       // tilePosX += (canvas.width / 2) - ((tileWidth / 2) * this.zoomHelper.level) + this.scrollPosition.x
+//       // let tilePosY = (row + col) * tileHeight / 2 + (this.grid.height * this.zoomHelper.level) + this.scrollPosition.x
+
+//       // -------------- 3
+//       // let tilePosX = this.tile.width * row * 1.2//(row - col) * this.tile.height
+//       // let tilePosY = this.tile.height * col * 1.2//(row + col) * (this.tile.height)
+
+//       // tilePosX -= this.scrollPosition.x
+//       // tilePosY -= this.scrollPosition.y
+//       // --------------
+//       this.#drawSquare(Math.round(tilePosX), Math.round(tilePosY), row, col)
+//     }
+//   }
+// }
+// }
 
 
 

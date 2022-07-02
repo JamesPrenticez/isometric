@@ -1,8 +1,8 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
-canvas.width = document.body.clientWidth
-canvas.height = document.body.clientHeight
+canvas.width = 500//document.body.clientWidth
+canvas.height = 500//document.body.clientHeight
 
 const animate = () => {
   //handleResize()
@@ -17,6 +17,7 @@ const animate = () => {
   //Draw
   map.draw()
   map.pan()
+  map.scrollDisplay()
   //console.log(map)
   
   requestAnimationFrame(animate)
