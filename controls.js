@@ -4,6 +4,8 @@ class Controls{
     this.left = false
     this.down = false
     this.right = false
+    this.plus = false
+    this.minus = false
 
     this.#addKeyboardListeners()
   }
@@ -23,6 +25,15 @@ class Controls{
         case "d":
           this.right = true
           break
+        case "+":
+          this.plus = true
+          break
+        case "-":
+          this.minus = true
+          break
+        case "r":
+          this.rotate = true
+          break
       }
       //console.table(this)
     }
@@ -39,6 +50,15 @@ class Controls{
           break
         case "d":
           this.right = false
+          break
+        case "+":
+          this.plus = false
+          break
+        case "-":
+          this.minus = false
+          break
+        case "r":
+          this.rotate = false
           break
       }
       //console.table(this)
