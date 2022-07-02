@@ -5,7 +5,7 @@ canvas.width = document.body.clientWidth
 canvas.height = document.body.clientHeight
 
 const animate = () => {
-  handleResize()
+  //handleResize()
 
   //Clear canvas
   ctx.fillStyle = '#000000'
@@ -16,6 +16,8 @@ const animate = () => {
   
   //Draw
   map.draw()
+  map.pan()
+  //console.log(map)
   
   requestAnimationFrame(animate)
 }
