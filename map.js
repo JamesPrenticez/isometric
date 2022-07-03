@@ -3,7 +3,7 @@ tile.src = './img/tile.png'
 
 class Map{
   constructor(){
-    this.tileMap = []
+    this.testMap = []
     this.tile = { width: 32, height: 32 }
     this.grid = { width: 250, height: 250 }
     this.scrollPosition = {x: 0, y: 0 }
@@ -191,41 +191,24 @@ class Map{
     )
   }
 
-  initGrid(){
-    for(let i = 0; i < this.grid.width; i++) {
-      this.tileMap[i] = []
-        for (let j = 0; j < this.grid.height; j++) {
-            this.tileMap[i][j] = Math.random() * 1
-      }
-    }
-    console.log('this.tileMap', this.tileMap)
-  }
+  // initGrid(){
+  //   for(let i = 0; i < this.grid.width; i++) {
+  //     this.tileMap[i] = []
+  //       for (let j = 0; j < this.grid.height; j++) {
+  //           this.tileMap[i][j] = Math.random() * 1
+  //     }
+  //   }
+  //   //console.log('this.tileMap', this.tileMap)
+  // }
 
   draw(){
-    // get the top left tile
-    const TL = {
-      top: this.scrollPosition.y / this.tile.height,
-      left: this.scrollPosition.x / this.tile.width
-    }
-
-    const centreMap = {
-      x: this.grid.width * this.tile.width / 2,
-      y: this.grid.height * this.tile.height / 2
-    }
-  
     // get the number of tiles that will fit the canvas 
     const rowsThatFitOnScreen = this.grid.width < canvas.width / this.tile.width ? this.grid.width : canvas.width / this.tile.width
     const colsThatFitOnScreen = this.grid.height < canvas.height / this.tile.height ? this.grid.height : canvas.height / this.tile.height
 
-    // let a = Math.floor(this.scrollPosition.x / this.tile.height)
-    // let b = Math.floor(this.scrollPosition.y / this.tile.width)
-    // let startCol = a >= 0 ? a : 0
-    // let startRow = b >= 0 ? b : 0
-    
+    // get the top left row/col relative to the scrollPoistion   
     let startCol = Math.max(Math.floor(this.scrollPosition.x / this.tile.height), 0)
     let startRow = Math.max(Math.floor(this.scrollPosition.y / this.tile.width), 0)
-
-
 
     for(let row = startRow; row < startRow + rowsThatFitOnScreen; row++){
       for(let col = startCol; col <  startCol + colsThatFitOnScreen; col++){
@@ -249,28 +232,26 @@ class Map{
           tileIndex = this.tileMap[row][col]
         } 
 
-        
         if(tileIndex > 0.5){
           this.#drawSquare(tilePosX, tilePosY, "red")
         }
         if(tileIndex < 0.5){
           this.#drawSquare(tilePosX, tilePosY, "blue")
         }
-        //color
-
-        //Draw each tile
-        //ctx.setTransform(1,0,0,1, 0, 0)  
       }
     }
    }
 }
 
 let map = new Map()
-map.initGrid()
+//map.initGrid()
 
 
 
-
+// const centreMap = {
+//   x: this.grid.width * this.tile.width / 2,
+//   y: this.grid.height * this.tile.height / 2
+// }
 
 
 

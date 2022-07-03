@@ -3,38 +3,6 @@ const ctx = canvas.getContext("2d");
 const imageSrcDir = "http://sarahkerrigan.biz/wpmtest/1/images/tile/"
 const tileImages = [];
 
-requestAnimationFrame(mainLoop);  // start it after all code below has run
-function mainLoop(){
-  ctx.setTransform(1,0,0,1,0,0);
-  
-  //control the player
-  if(keys.ArrowUp){
-      player.y -= 0.1;
-  }
-  if(keys.ArrowDown){
-      player.y += 0.1;
-  }
-  if(keys.ArrowLeft){
-      player.x -= 0.1;
-  }
-  if(keys.ArrowRight){
-      player.x += 0.1;
-  }
-  // Make sure the player stays on the mapo
-  if(player.x < 2){ player.x = 2 }
-  if(player.y < 2){ player.y = 2 }
-  if(player.x >= currentMap.width-2){ player.x = currentMap.width-2}
-  if(player.y >= currentMap.height-2){ player.y = currentMap.height-2}
-  
-  
-  getMapPosition();
-  drawMap(currentMap);
-  player.draw();
-  
-  requestAnimationFrame(mainLoop);
-
-}
-
 function loadImages(images) {
   images.forEach(image => {
     const img = tileImages[image.mapIndex] = new Image();
@@ -56,20 +24,7 @@ loadImages([{
   },
 ]);
 
-const player = {
-  x: 6,
-  y: 2,
-  width: 80,
-  height: 80,
-  image: (() => {
-    const img = new Image();
-    img.src = "https://sarahkerrigan.biz/wpmtest/1/images/horseright1.png";
-    return img;
-  })(),
-  draw(){
-     ctx.drawImage(player.image,player.x * tileWidth - player.width / 2, player.y * tileHeight - player.height / 2);  
-  },
-};
+
 
 const testMap = [
   "3333333333333333333333",
@@ -125,9 +80,6 @@ function getMapPosition() {
   mapY = y;
 }
 
-
-
-
 function drawMap(map) {
   const w = map.width; // get the width of the tile array
   const mArray = map.array;
@@ -156,20 +108,3 @@ function drawMap(map) {
   }
 
 }
-
-
-const keys = {
-    ArrowUp : false,
-    ArrowDown : false,
-    ArrowLeft : false,
-    ArrowRight : false,
-};
-function keyEvents(e){
-    if(keys[e.code] !== undefined){
-        keys[e.code] = e.type === "keydown";
-        e.preventDefault();
-    }
-}
-addEventListener("keyup", keyEvents);
-addEventListener("keydown", keyEvents);
-window.focus();
