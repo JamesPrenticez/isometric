@@ -35,20 +35,20 @@ class Map{
 
   pan(){
     if(this.controls.up){
-      this.scrollPosition.y -= 20
+      this.scrollPosition.y -= this.tile.height
       //this.scroll.y -= ((this.scroll.y - this.tile.height) >= 0) ? this.tile.height : 0
     }
     if(this.controls.left){
-      this.scrollPosition.x -= 20
+      this.scrollPosition.x -= this.tile.width
       //this.scroll.x -= ((this.scroll.x - this.tile.width) >= 0) ? this.tile.width : 0;
     }
 
     if(this.controls.down){
-      this.scrollPosition.y += 20
+      this.scrollPosition.y += this.tile.height
     }
 
     if(this.controls.right){
-      this.scrollPosition.x += 20
+      this.scrollPosition.x += this.tile.width
     }
 
     if(this.controls.plus){
@@ -217,21 +217,21 @@ class Map{
     const rowsThatFitOnScreen = this.grid.width < canvas.width / this.tile.width ? this.grid.width : canvas.width / this.tile.width
     const colsThatFitOnScreen = this.grid.height < canvas.height / this.tile.height ? this.grid.height : canvas.height / this.tile.height
 
-    let a = Math.floor(this.scrollPosition.x / this.tile.height)
-    let b = Math.floor(this.scrollPosition.y / this.tile.width)
-    let startCol = a >= 0 ? a : 0
-    let startRow = b >= 0 ? b : 0
+    // let a = Math.floor(this.scrollPosition.x / this.tile.height)
+    // let b = Math.floor(this.scrollPosition.y / this.tile.width)
+    // let startCol = a >= 0 ? a : 0
+    // let startRow = b >= 0 ? b : 0
+    
+    let startCol = Math.max(Math.floor(this.scrollPosition.x / this.tile.height), 0)
+    let startRow = Math.max(Math.floor(this.scrollPosition.y / this.tile.width), 0)
+
 
 
     for(let row = startRow; row < startRow + rowsThatFitOnScreen; row++){
       for(let col = startCol; col <  startCol + colsThatFitOnScreen; col++){
 
-        let tilePosX = this.tile.width * col //(row - col) * this.tile.height
-        let tilePosY = this.tile.height * row //(row + col) * (this.tile.height)
-
-        //Center the grid horizontally/vertically
-        //tilePosX += (canvas.width / 2) - (rowCount * this.tile.width - this.tile.width)
-        //tilePosY += (canvas.height / 2) - (colCount * this.tile.height - this.tile.height)
+        let tilePosX = this.tile.width * col 
+        let tilePosY = this.tile.height * row 
 
         //Scroll
         tilePosX -= this.scrollPosition.x;
@@ -241,14 +241,15 @@ class Map{
         document.getElementById("startRow").innerText = startRow
         document.getElementById("startCol").innerText = startCol
 
-        //get index of tile in tileMap
-        let tileIndex = this.tileMap[row][col]
-        //console.log(tileIndex)
-        //console.log('row', row)
-        //console.log('col', col)
+        // Control how much of the map you render out
+        let tileIndex
+        let controlX = this.grid.width //100
+        let controlY = this.grid.height //100
+        if(row < controlY && col < controlX){
+          tileIndex = this.tileMap[row][col]
+        } 
 
-        let color = "transparent"
-
+        
         if(tileIndex > 0.5){
           this.#drawSquare(tilePosX, tilePosY, "red")
         }
