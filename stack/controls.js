@@ -35,7 +35,7 @@ class Controls{
           this.rotate = true
           break
       }
-      console.table(this)
+      //console.table(this)
     }
     document.onkeyup = (e) => {
       switch(e.key){

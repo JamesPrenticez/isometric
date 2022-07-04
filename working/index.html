@@ -10,9 +10,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Javascript -->
+  <script src="main.js" defer></script>
+  <!-- <script src="resize.js" defer></script> -->
+  <script src="mouse.js" defer></script>
   <script src="controls.js" defer></script>
-  <script src="test1.js" defer></script>
-
+  <script src="map.js" defer></script>
   <!-- 
   -->
 </head>
@@ -23,14 +25,18 @@
     Your browser doesn't include support for the canvas element.
   </canvas>
 
-  <div class="bg-white flex justify-between">
-    <div class="w-full border-r border-black p-2">
+  <div class="bg-white flex justify-between divide-x-2 divide-blue-500 border-2 border-blue-500">
+    <div class="w-full p-2">
       <p>Scroll x: <span id="scrollX"></span></p>
       <p>Scroll y: <span id="scrollY"></span></p>
     </div>
-    <div class="w-full p-2">
+    <div class="w-full p-2 bg-gray-300">
       <p>Start Row: <span id="startRow"></span></p>
       <p>Start Col: <span id="startCol"></span></p>
+    </div>
+    <div class="w-full p-2">
+      <p>Mouse x: <span id="mouseX"></span></p>
+      <p>Mouse y: <span id="mouseY"></span></p>
     </div>
     </div>
   </div>
