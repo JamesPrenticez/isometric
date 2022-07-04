@@ -6,29 +6,32 @@ class Map{
     this.scrollPosition = {x: 0, y: 0 }
     this.zoom = { level: 1 }
 
-    this.controls = new Controls()
+    this.controls = new Controls("map")
     this.mouse = new Mouse()
-
-
-  }
-  
-  displayHTML(){
-    document.getElementById("scrollX").innerText = this.scrollPosition.x
-    document.getElementById("scrollY").innerText = this.scrollPosition.y
-
-    
   }
 
-  playerControls(){
-    this.#playerMouse()
+  initGrid(){
+    for(let i = 0; i < this.grid.width; i++) {
+      this.tileMap[i] = []
+        for (let j = 0; j < this.grid.height; j++) {
+            this.tileMap[i][j] = Math.random() * 1
+      }
+    }
+    //console.log('this.tileMap', this.tileMap)
+  }
+
+  superUpdate(){
     this.#pan()
     this.#zoomIn()
     this.#zoomOut()
+    this.#playerMouse()
+    this.#draw()
   }
 
   #pan(){
+    this.controls.fired = true
+
     if(this.controls.up){
-      console.log('here')
       this.scrollPosition.y -= Math.floor(this.tile.height / 10)
     }
     if(this.controls.left){
@@ -42,6 +45,10 @@ class Map{
     if(this.controls.right){
       this.scrollPosition.x += Math.floor(this.tile.width / 10)
     }
+
+    // Display coords to HTML
+    document.getElementById("scrollX").innerText = this.scrollPosition.x
+    document.getElementById("scrollY").innerText = this.scrollPosition.y
   }
 
   #zoomIn(){
@@ -64,31 +71,6 @@ class Map{
       //this.scrollPosition.x = 0 
       //this.scrollPosition.y = 0
     } 
-  }
-
-  #rotateGrid(mW, mH, sW, sH){
-    if(this.controls.rotate){
-      this.#rotateGrid()
-    }
-    // let m = []
-
-    // mW = (mW === undefined) ? this.grid.width : mW
-    // mH = (mH === undefined) ? this.grid.height : mH
-
-    // sW = (sW === undefined) ? 0 :sW
-    // sH = (sH === undefined) ? 0 :sH
-
-    // for(let i = sW; i < mW; i++){
-    //   for(let j = sH; j < mH; j++){
-    //     let row = (mW - j) - 1
-
-    //     if(this.tileMap[row] !== undefined && this.tileMap[row][i]){
-    //       m[i] = (m[i] === undefined) ? [] : m[i]
-    //       m[i][j] = this.tileMap[row][i]
-    //     }
-    //   }
-    // }
-    // this.tileMap = m
   }
 
   #playerMouse(){
@@ -137,44 +119,7 @@ class Map{
 
   }
 
-  #drawRotatedSquare(tilePosX, tilePosY, row, col){
-    //ctx.setTransform(1, 0.5, -0.5, 1, 0, 0)
-    //ctx.setTransform(1, 0.5, -1, 0.5, this.tile.width/2, 0)
-    //ctx.rotate(0 * Math.PI / 180)
-    ctx.beginPath()
-    ctx.rect(tilePosX, tilePosY, this.tile.width, this.tile.height)  // x cord, y cord, width, height    
-    ctx.strokeStyle = "red"
-    ctx.fillStyle = ctx.isPointInPath(mouse.clientX, mouse.clientY) ? "yellow" : "transparent"
-    ctx.lineWidth = 1
-    ctx.stroke()
-    ctx.fill()
-    ctx.font = 'bold 12px mono';
-    ctx.fillStyle = "white"
-    ctx.fillText( row + ":" + col, tilePosX + 4, tilePosY + 16)
-    ctx.setTransform(1, 0, 0, 1, 0, 0)
-  }
-
-  #drawTile(tilePosX, tilePosY){
-    ctx.drawImage(
-      tile,
-      Math.round(tilePosX),
-      Math.round(tilePosY),
-      tile.width,
-      tile.height
-    )
-  }
-
-  initGrid(){
-    for(let i = 0; i < this.grid.width; i++) {
-      this.tileMap[i] = []
-        for (let j = 0; j < this.grid.height; j++) {
-            this.tileMap[i][j] = Math.random() * 1
-      }
-    }
-    console.log('this.tileMap', this.tileMap)
-  }
-
-  draw(){
+  #draw(){
     // get the number of tiles that will fit the canvas. Plus 1 to pre-render the next tile outside the screen
     const rowsThatFitOnScreen = this.grid.width < canvas.width / this.tile.width ? this.grid.width : canvas.width / this.tile.width + 1
     const colsThatFitOnScreen = this.grid.height < canvas.height / this.tile.height ? this.grid.height : canvas.height / this.tile.height + 1
@@ -216,8 +161,7 @@ class Map{
    }
 }
 
-let map = new Map()
-map.initGrid()
+
 
 // Write cell coordinates in cell
 // ctx.font = 'bold 12px mono';
@@ -225,3 +169,55 @@ map.initGrid()
 // ctx.fillText( "r" + row, tilePosX + 4, tilePosY + 16)
 // ctx.fillStyle = "pink"
 // ctx.fillText( "c" + col, tilePosX + 4, tilePosY + 30)
+
+// #drawTile(tilePosX, tilePosY){
+//   ctx.drawImage(
+//     tile,
+//     Math.round(tilePosX),
+//     Math.round(tilePosY),
+//     tile.width,
+//     tile.height
+//   )
+// }
+
+// #drawRotatedSquare(tilePosX, tilePosY, row, col){
+//   //ctx.setTransform(1, 0.5, -0.5, 1, 0, 0)
+//   //ctx.setTransform(1, 0.5, -1, 0.5, this.tile.width/2, 0)
+//   //ctx.rotate(0 * Math.PI / 180)
+//   ctx.beginPath()
+//   ctx.rect(tilePosX, tilePosY, this.tile.width, this.tile.height)  // x cord, y cord, width, height    
+//   ctx.strokeStyle = "red"
+//   ctx.fillStyle = ctx.isPointInPath(mouse.clientX, mouse.clientY) ? "yellow" : "transparent"
+//   ctx.lineWidth = 1
+//   ctx.stroke()
+//   ctx.fill()
+//   ctx.font = 'bold 12px mono';
+//   ctx.fillStyle = "white"
+//   ctx.fillText( row + ":" + col, tilePosX + 4, tilePosY + 16)
+//   ctx.setTransform(1, 0, 0, 1, 0, 0)
+// }
+
+// #rotateGrid(mW, mH, sW, sH){
+//   if(this.controls.rotate){
+//     this.#rotateGrid()
+//   }
+//   let m = []
+
+//   mW = (mW === undefined) ? this.grid.width : mW
+//   mH = (mH === undefined) ? this.grid.height : mH
+
+//   sW = (sW === undefined) ? 0 :sW
+//   sH = (sH === undefined) ? 0 :sH
+
+//   for(let i = sW; i < mW; i++){
+//     for(let j = sH; j < mH; j++){
+//       let row = (mW - j) - 1
+
+//       if(this.tileMap[row] !== undefined && this.tileMap[row][i]){
+//         m[i] = (m[i] === undefined) ? [] : m[i]
+//         m[i][j] = this.tileMap[row][i]
+//       }
+//     }
+//   }
+//   this.tileMap = m
+// }

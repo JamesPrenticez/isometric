@@ -1,9 +1,22 @@
+/* ------------------------------------------------------
+Canvas
+------------------------------------------------------ */
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
 canvas.width = 480//document.body.clientWidth
 canvas.height = 480//document.body.clientHeight
 
+/* ------------------------------------------------------
+Instantiate Classes
+------------------------------------------------------ */
+let map = new Map()
+map.initGrid()
+let player1 = new Player()
+
+/* ------------------------------------------------------
+Animate
+------------------------------------------------------ */
 const animate = () => {
   //handleResize()
 
@@ -15,10 +28,8 @@ const animate = () => {
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
   
   //Draw
-  map.draw()
-  map.playerControls()
-  map.displayHTML()
-  //console.log(map)
+  map.superUpdate()
+  player1.superUpdate()
   
   requestAnimationFrame(animate)
 }

@@ -1,28 +1,72 @@
 class Controls{
-  constructor(){
-    this.up = false
-    this.left = false
-    this.down = false
-    this.right = false
-    this.plus = false
-    this.minus = false
+  constructor(type){
+      this.up = false
+      this.left = false
+      this.down = false
+      this.right = false
+      this.plus = false
+      this.minus = false
 
-    this.#addKeyboardListeners()
-  }
+      switch(type){
+        case "player":
+          this.#playerControls()
+          break
+        case "map":
+          this.#mapControls()
+          break
+      }
+    }
+  
+    #playerControls(){
+      document.addEventListener('keydown', (e) => {
+        switch(e.key){
+          case "w":
+            this.w = true
+            break
+          case "a":
+            this.a = true
+            break
+          case "s":
+            this.s = true
+            break
+          case "d":
+            this.d = true
+            break
+        }
+        //console.table(this)
+      })
+      document.addEventListener('keyup', (e) => {
+        switch(e.key){
+          case "w":
+            this.w = false
+            break
+          case "a":
+            this.a = false
+            break
+          case "s":
+            this.s = false
+            break
+          case "d":
+            this.d = false
+            break
+        }
+        //console.table(this)
+      })
+    }
 
-  #addKeyboardListeners(){
-    document.onkeydown = (e) => {
+  #mapControls(){
+    document.addEventListener('keydown', (e) => {
       switch(e.key){
-        case "w":
+        case "ArrowUp":
           this.up = true
           break
-        case "a":
+        case "ArrowLeft":
           this.left = true
           break
-        case "s":
+        case "ArrowDown":
           this.down = true
           break
-        case "d":
+        case "ArrowRight":
           this.right = true
           break
         case "+":
@@ -35,20 +79,21 @@ class Controls{
           this.rotate = true
           break
       }
+      this.fired = false
       //console.table(this)
-    }
-    document.onkeyup = (e) => {
+    })
+    document.addEventListener('keyup', (e) => {
       switch(e.key){
-        case "w":
+        case "ArrowUp":
           this.up = false
           break
-        case "a":
+        case "ArrowLeft":
           this.left = false
           break
-        case "s":
+        case "ArrowDown":
           this.down = false
           break
-        case "d":
+        case "ArrowRight":
           this.right = false
           break
         case "+":
@@ -62,6 +107,6 @@ class Controls{
           break
       }
       //console.table(this)
-    }
+    })
   }
 }
