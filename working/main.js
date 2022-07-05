@@ -10,16 +10,20 @@ canvas.height = 480//document.body.clientHeight
 /* ------------------------------------------------------
 Global Variables
 ------------------------------------------------------ */
+let tileMap = []
 let tile = { width: 32, height: 32 }
 let grid = { width: 250, height: 250 }
 let scrollPosition = {x: 0, y: 0 }
+let zoom = { level: 1 }
+
+
 /* ------------------------------------------------------
 Instantiate Classes
 ------------------------------------------------------ */
-let map = new Map(tile, grid, scrollPosition)
+initGrid(tileMap, grid)
+let map = new Map(tileMap, tile, grid, scrollPosition)
 let camera = new Camera(tile, grid, scrollPosition)
-map.initGrid()
-let player1 = new Player()
+let player1 = new Player(tileMap, scrollPosition)
 
 /* ------------------------------------------------------
 Animate

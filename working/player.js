@@ -2,9 +2,11 @@
   Player
 ----------------------------------------------*/
 class Player{
-  constructor(){
-    this.x = 0, 
-    this.y = 0,
+  constructor(tileMap, scrollPosition){
+    this.tileMap = tileMap
+    this.scrollPosition = scrollPosition
+    this.x = 250 - 40
+    this.y = 250 - 40
     this.width = 80,
     this.height = 80,
     this.img = new Image()
@@ -23,7 +25,18 @@ class Player{
     this.#draw()
   }
 
+  // Get Poisiton of Player on the Map
+  getPlayerPositionOnMap() {
+    //
+  }
+
+  #updatePosition(){
+    //this.x = this.x += 50
+    //console.log('this.x', this.x)
+  }
+
   #move(){
+
     if(this.controls.w){
       this.y -= 1;
     }
@@ -40,16 +53,11 @@ class Player{
     }
   }
 
-  // Get Poisiton of Player on the Map
-  getPlayerPositionOnMap() {
-    //
-  }
-
   #draw(){
     ctx.drawImage(
       this.img,
-      this.x,
-      this.y,
+      this.x - this.scrollPosition.x,
+      this.y - this.scrollPosition.y,
       this.width,
       this.height,
     )  
