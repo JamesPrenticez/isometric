@@ -1,9 +1,9 @@
 class Map{
-  constructor(){
+  constructor(tile, grid, scrollPosition){
     this.tileMap = []
-    this.tile = { width: 32, height: 32 }
-    this.grid = { width: 250, height: 250 }
-    this.scrollPosition = {x: 0, y: 0 }
+    this.tile = tile
+    this.grid = grid
+    this.scrollPosition = scrollPosition
     this.zoom = { level: 1 }
 
     this.controls = new Controls("map")
@@ -21,7 +21,7 @@ class Map{
   }
 
   superUpdate(){
-    this.#pan()
+    //this.#pan()
     this.#zoomIn()
     this.#zoomOut()
     this.#playerMouse()

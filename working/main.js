@@ -8,9 +8,16 @@ canvas.width = 480//document.body.clientWidth
 canvas.height = 480//document.body.clientHeight
 
 /* ------------------------------------------------------
+Global Variables
+------------------------------------------------------ */
+let tile = { width: 32, height: 32 }
+let grid = { width: 250, height: 250 }
+let scrollPosition = {x: 0, y: 0 }
+/* ------------------------------------------------------
 Instantiate Classes
 ------------------------------------------------------ */
-let map = new Map()
+let map = new Map(tile, grid, scrollPosition)
+let camera = new Camera(tile, grid, scrollPosition)
 map.initGrid()
 let player1 = new Player()
 
@@ -28,6 +35,7 @@ const animate = () => {
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
   
   //Draw
+  camera.pan()
   map.superUpdate()
   player1.superUpdate()
   
