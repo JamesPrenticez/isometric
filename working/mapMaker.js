@@ -32,7 +32,7 @@ const createTileMap = (rows, cols) => {
 
 // Save that map to a file
 const writeFile = (data) => {
-  fs.writeFile('./working/maps/map1.txt', data, err => {
+  fs.writeFile('./working/maps/map1.json', data, err => {
     if (err) {
       console.error(err);
     }
@@ -40,21 +40,38 @@ const writeFile = (data) => {
   })
 }
 
-let newMap = createTileMap(25, 15)
+// let newMap = createTileMap(25, 15)
+// console.log(newMap)
+
+// let test = new Uint8Array(10 * 10)
+// console.log(test) 
+
+// const jsonString = Buffer.from(test).toString('utf8')
+// console.log(jsonString) 
+// const parsedData = JSON.parse(jsonString)
+// console.log(parsedData)
+
+// console.log(json)
+// writeFile(json)
+
+
 //console.log('newMap', newMap)
 
 //const obj = {hello: 'world'};
 //const blob = new buffer.Blob([JSON.stringify(obj, null, 2)], {type : 'application/json'});
 //console.log('blob', blob)
 
-const obj = newMap
-const blob = new buffer.Blob([JSON.stringify(obj, null, 2)], {type : 'application/json'});
-console.log('blob', blob)
+// const obj = newMap
+// const blob = new buffer.Blob([JSON.stringify(obj, null, 2)], {type : 'contentType'});
+// console.log(blob)
 
-fs.createWriteStream('./working/maps/map1.json').write(nope)
+//let file = new File([blob], "file_name", {lastModified: 1534584790000});
+
+//fs.createWriteStream('./working/maps/map1.json').write(blob)
+//fs.writeFileSync('./working/maps/map1.json').write(blob)
+// fs.writeFileSync('./working/maps/map1.txt', Buffer.from(test));
 
 //let json = JSON.stringify(newMap)
-//writeFile(blob)
 
 //Read the file back in
 // const readFile = () => {
@@ -72,4 +89,5 @@ fs.createWriteStream('./working/maps/map1.json').write(nope)
 
 //https://stackoverflow.com/questions/14653349/node-js-cant-create-blobs
 
-  
+
+
