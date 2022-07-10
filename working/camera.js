@@ -3,8 +3,8 @@ class Camera{
 
     this.grid = grid
 
-    this.controls = new Controls("map")
-    this.mouse = new Mouse()
+    this.controls = new Controls("camera")
+    this.mouse = new Mouse("camera")
   }
 
   pan(){

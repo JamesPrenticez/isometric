@@ -4,9 +4,8 @@ class Map{
     this.tile = tile
     this.grid = grid
     this.scrollPosition = scrollPosition
-    this.mouse = new Mouse()
 
-
+    this.mouse = new Mouse("map")
   }
 
   superUpdate(){

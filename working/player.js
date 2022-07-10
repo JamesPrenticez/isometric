@@ -17,7 +17,7 @@ class Player{
     this.d = false
 
     this.controls = new Controls("player")
-    this.mouse = new Mouse()
+    this.mouse = new Mouse("player")
   }
 
   superUpdate(){
@@ -32,12 +32,15 @@ class Player{
     document.getElementById("mouseX").innerText = tileHovered.col + 1 // artificially add + 1 to account for zero indexing
     document.getElementById("mouseY").innerText = tileHovered.row + 1
 
+
+
     if(this.mouse.up){
       //console.log('Click')
       //this.dragHelper.active = false
     }
-
+    
     if(this.mouse.down){
+      //console.log('Click')
       //do somthing
     }
   }

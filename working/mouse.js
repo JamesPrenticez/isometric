@@ -1,14 +1,25 @@
 class Mouse{
-  constructor(){
+  constructor(type){
     this.clientX = 0
     this.clientY = 0
     this.up = false
     this.down = false
 
-    this.#addMouseListeners()
+
+    switch(type){
+      case "player":
+        this.#playerControls()
+        break
+      case "map":
+        this.#mapControls()
+        break
+      case "camera":
+        this.#cameraControls()
+        break
+    }
   }
 
-  #addMouseListeners(){
+  #playerControls(){
     canvas.addEventListener('mousemove', (e) => {
       this.clientX = e.offsetX,
       this.clientY = e.offsetY
@@ -19,14 +30,42 @@ class Mouse{
       this.up = false
       this.down = true
     })
-    canvas.addEventListener('mousedown', (e) => {
+
+
+    canvas.addEventListener('click', (e) => {
+      if (e.repeat) return
       e.preventDefault()
-      this.up = true
-      this.down = false
+      let mouseCoords = {
+        clientX: e.offsetX,
+        clientY: e.offsetY
+      }
+      console.log("babalon", mouseCoords )
+    })
+  }
+
+  #mapControls(){
+    canvas.addEventListener('mousemove', (e) => {
+      this.clientX = e.offsetX,
+      this.clientY = e.offsetY
     })
 
+    canvas.addEventListener('mouseup', (e) => {
+      e.preventDefault()
+      this.up = false
+      this.down = true
+    })
+  }
+
+  #cameraControls(){
+    //null
   }
 }
+
+
+/* -----
+if (e.repeat) return
+----- */
+
 
 //let mouse = new Mouse()
 
