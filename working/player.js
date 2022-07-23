@@ -4,8 +4,8 @@
 class Player{
   constructor(tileMap){
     this.tileMap = tileMap
-    this.x = 0,
-    this.y = 0,
+    this.x = canvas.width / 2 - 40,
+    this.y = canvas.height / 2 - 40,
     this.width = 80,
     this.height = 80,
     this.img = new Image()
@@ -70,17 +70,21 @@ class Player{
  
     if(this.controls.w){
       this.y -= 1;
+      scrollPosition.y -= 1
     }
     if(this.controls.a){
       this.x -= 1
+      scrollPosition.x -= 1
     }
 
     if(this.controls.s){
       this.y += 1
+      scrollPosition.y += 1
     }
 
     if(this.controls.d){
       this.x += 1
+      scrollPosition.x += 1
     }
   }
 

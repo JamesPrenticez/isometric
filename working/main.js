@@ -39,7 +39,7 @@ const animate = () => {
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
   
   //Draw
-  camera.pan()
+  camera.pan(player1.x, player1.y)
   map.superUpdate()
   player1.superUpdate()
   

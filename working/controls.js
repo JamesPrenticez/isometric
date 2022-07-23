@@ -4,6 +4,7 @@ class Controls{
       this.left = false
       this.down = false
       this.right = false
+      this.space = false
       this.plus = false
       this.minus = false
 
@@ -78,6 +79,9 @@ class Controls{
         case "r":
           this.rotate = true
           break
+        case " ":
+          this.space = true
+          break
       }
       this.fired = false
       //console.table(this)
@@ -104,6 +108,9 @@ class Controls{
           break
         case "r":
           this.rotate = false
+          break
+        case " ":
+          this.space = false
           break
       }
       //console.table(this)

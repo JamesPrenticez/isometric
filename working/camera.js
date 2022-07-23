@@ -1,13 +1,10 @@
 class Camera{
-  constructor(grid){
-
-    this.grid = grid
-
+  constructor(){
     this.controls = new Controls("camera")
     this.mouse = new Mouse("camera")
   }
 
-  pan(){
+  pan(playerX, playerY){
     if(this.controls.up){
       scrollPosition.y -= Math.floor(tile.height / 10)
     }
@@ -20,7 +17,14 @@ class Camera{
     }
 
     if(this.controls.right){
+      console.log("right..") 
       scrollPosition.x += Math.floor(tile.width / 10)
+    }
+
+    if(this.controls.space){
+      scrollPosition.x = playerX - (canvas.width / 2 - 40)
+      scrollPosition.y = playerY - (canvas.height / 2 - 40)
+      console.log(playerX, playerY) 
     }
 
     // Display coords to HTML
